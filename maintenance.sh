@@ -65,7 +65,7 @@ show_status () {
 SHOW_STATUS=$(show_status)
 
 # Check input
-check_input() {
+checkInput() {
   echo ""
   echo -e "${ORANGE}${INVERT}${WARNING}${BOLD} Nginx Maintenance Mode ${NC}"
   echo ""
@@ -73,19 +73,18 @@ check_input() {
   echo ""
 }
 
-INPUT_CHECK=$(check_input)
+INPUT_CHECK=$(checkInput)
 
 # Exit Script
-exit_script () {
+exitScript() {
   printf "${GREEN}"
-  cat << "EOF"     __  ___      _       __
-    /  |/  /___ _(_)___  / /____  ____  ____ _____  ________
-   / /|_/ / __ `/ / __ \/ __/ _ \/ __ \/ __ `/ __ \/ ___/ _ \
-  / /  / / /_/ / / / / / /_/  __/ / / / /_/ / / / / /__/  __/
- /_/  /_/\__,_/_/_/ /_/\__/\___/_/ /_/\__,_/_/ /_/\___/\___/
-
-EOF
   printf "${NC}"
+  echo -e "
+    This script is fueled by coffee ☕
+   ${GREEN}${DONE}${NC} ${BBLUE}Github${NC} ${ARROW} ${ORANGE}https://github.com/dududadadodo${NC}
+   ${GREEN}${DONE}${NC} ${BBLUE}Gitlab${NC} ${ARROW} ${ORANGE}https://gitlab.com/dududadadodo${NC}
+  "
+  echo ""
   exit
 }
 
@@ -106,7 +105,7 @@ EOF
 }
 
 # Make sure that the script runs with root permissions
-chk_permissions () {
+function checkPermissions() {
   if [[ "$EUID" != 0 ]]; then
     echo -e "${RED}${ERROR} This action needs root permissions.${NC} Please enter your root password...";
     cd "$CURRDIR"
@@ -147,7 +146,7 @@ function checkToggleOff() {
 }
 
 # only runs if nginx -t succeeds
-safe_reload() {
+safeReload() {
   nginx -t &&
   systemctl reload $SERVICE_NAME
 }
@@ -155,7 +154,7 @@ safe_reload() {
 # Restart Nginx
 restartNginx () {
   printf "\n-- ${GREEN}${ARROW} reloading Nginx\n\n ${NC}"
-  safe_reload
+  safeReload
   sleep 2
   echo -e "${SHOW_STATUS} "
   #systemctl show -p SubState --value $SERVICE_NAME
@@ -173,7 +172,7 @@ fi
 main() {
   if [ "$2" == "on" ]
   then
-    chk_permissions
+    checkPermissions
     checkDirExists
     checkToggleOff
     # Enable Maintenance Mode
@@ -184,7 +183,7 @@ main() {
     restartNginx
 elif [ "$2" == "off" ]
   then
-    chk_permissions
+    checkPermissions
     checkDirExists
     checkToggleOn
     # Disable Maintenance Mode
@@ -200,4 +199,4 @@ elif [ "$2" == "off" ]
 
 header
 main $@
-exit_script
+exitScript
