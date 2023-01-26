@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-version='1.0.2'
+version='0.0.1'
 # Declare variables
 SERVICE_NAME=nginx.service
-maintenance_file_path=/etc/nginx/html/server-error-pages/_site
-GITHUB_REPO=https://github.com/tmiland/Nginx-Maintenance-Mode
-# Detect absolute and full path as well as filename of this script
+maintenance_file_path=/etc/nginx/html/server-error-pages
+
 cd "$(dirname $0)"
 CURRDIR=$(pwd)
 SCRIPT_FILENAME=$(basename $0)
@@ -79,14 +78,7 @@ INPUT_CHECK=$(check_input)
 # Exit Script
 exit_script () {
   printf "${GREEN}"
-  cat << "EOF"
-     _   __      _
-    / | / /___ _(_)___  _  __
-   /  |/ / __ `/ / __ \| |/_/
-  / /|  / /_/ / / / / />  <
- /_/ |_/\__, /_/_/ /_/_/|_|
-       /____/
-     __  ___      _       __
+  cat << "EOF"     __  ___      _       __
     /  |/  /___ _(_)___  / /____  ____  ____ _____  ________
    / /|_/ / __ `/ / __ \/ __/ _ \/ __ \/ __ `/ __ \/ ___/ _ \
   / /  / / /_/ / / / / / /_/  __/ / / / /_/ / / / / /__/  __/
@@ -100,7 +92,6 @@ EOF
 header() {
   printf "${BLUE}"
   cat << EOF
-
 ╔═══════════════════════════════════════════════════════════════════╗
 ║                                                                   ║
 ║                      Nginx Maintenance mode                       ║
